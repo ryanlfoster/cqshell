@@ -1,0 +1,4 @@
+#base=js
+jquery-1.7.1.min.js
+jquery.terminal-min.js
+jquery.mousewheel-min.js
