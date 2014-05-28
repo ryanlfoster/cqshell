@@ -1,6 +1,6 @@
 package net.thartm.cq.cqshell.impl.servlet;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.thartm.cq.cqshell.api.ActionCall;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -24,11 +24,11 @@ public class RpcCommandServlet extends SlingSafeMethodsServlet {
     protected final void doGet(final SlingHttpServletRequest request, final SlingHttpServletResponse response)
             throws IOException, ServletException {
 
-        final Gson gson = new Gson();
+        final ObjectMapper mapper = new ObjectMapper();
         final ActionCall call = new ActionCall("1", "ls", "-l", "-a");
         final PrintWriter writer = response.getWriter();
 
-        writer.write(gson.toJson(call));
+        writer.write(mapper.writeValueAsString(call));
         response.flushBuffer();
     }
 }

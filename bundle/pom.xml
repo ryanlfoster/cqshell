@@ -48,7 +48,7 @@
                             *
                         </Import-Package>
                         <Embed-Dependency>
-                            gson
+                            jackson-core,jackson-databind,jackson-annotations
                         </Embed-Dependency>
                     </instructions>
                 </configuration>
@@ -73,9 +73,16 @@
         </dependency>
 
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.2.4</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
         </dependency>
 
         <dependency>

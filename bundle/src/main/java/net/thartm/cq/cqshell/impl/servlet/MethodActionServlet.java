@@ -1,9 +1,10 @@
 package net.thartm.cq.cqshell.impl.servlet;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Optional;
-import com.google.gson.Gson;
 import net.thartm.cq.cqshell.api.ActionCall;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
@@ -11,19 +12,38 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
-/** JSON RPC endpoint for method action invocations. Expects the action to be send as a JSON payload. Deserializes the payload and delegates the call to an
- * invoker.
+/** JSON RPC endpoint for method action invocations. Expects the action to be send as a JSON payload. <br />
+ * Unserializes the payload and delegates the call to an invoker.
  * 
  * @author thomas.hartmann@netcentric.biz
  * @since 05/2014 */
+@SlingServlet(paths = { "/bin/cqshell/rpc/2/action" }, methods = { "GET", "POST" })
 public class MethodActionServlet extends SlingAllMethodsServlet {
 
     private static final Logger LOG = LoggerFactory.getLogger(MethodActionServlet.class);
+
+    @Override
+    protected final void doGet(final SlingHttpServletRequest request, final SlingHttpServletResponse response)
+            throws IOException, ServletException {
+        final Optional idOptional = getParamOptional(request, JsonRpcParameter.ID);
+        final Optional methodOptional = getParamOptional(request, JsonRpcParameter.METHOD);
+        final Optional argOptional = getParamOptional(request, JsonRpcParameter.ARGUMENTS);
+
+        final ObjectMapper mapper = new ObjectMapper();
+        final ActionCall call = new ActionCall("1", "ls", "-l", "-a");
+        final PrintWriter writer = response.getWriter();
+
+        writer.write(mapper.writeValueAsString(call));
+        response.flushBuffer();
+        // TODO validate param optionals
+    }
+
+    private Optional getParamOptional(final SlingHttpServletRequest request, final JsonRpcParameter parameter) {
+        final String param = request.getParameter(parameter.getName());
+        return Optional.fromNullable(param);
+    }
 
     @Override
     protected final void doPost(final SlingHttpServletRequest request, final SlingHttpServletResponse response)
@@ -73,10 +93,10 @@ public class MethodActionServlet extends SlingAllMethodsServlet {
         return stringBuilder.toString();
     }
 
-    private Optional<ActionCall> getMethodCall(final String messageBody) {
+    private Optional<ActionCall> getMethodCall(final String messageBody) throws IOException {
         if (StringUtils.isNotBlank(messageBody)) {
-            final Gson gson = new Gson();
-            final ActionCall call = gson.fromJson(messageBody, ActionCall.class);
+            final ObjectMapper mapper = new ObjectMapper();
+            final ActionCall call = mapper.readValue(messageBody, ActionCall.class);
             return Optional.fromNullable(call);
         }
         return Optional.absent();
