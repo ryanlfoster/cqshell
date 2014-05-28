@@ -1,5 +1,5 @@
-# CQShell ... a web based CQ commandline interpreter
-Every decent piece of software needs a shell!
+# CQShell 
+It's a web based CQ commandline interpreter because every decent piece of software needs a shell!
 
 ## Supported shell commands
 
