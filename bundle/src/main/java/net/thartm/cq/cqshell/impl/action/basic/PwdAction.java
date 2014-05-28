@@ -1,8 +1,9 @@
-package net.thartm.cq.cqshell.impl.action.invoker;
+package net.thartm.cq.cqshell.impl.action.basic;
 
-import net.thartm.cq.cqshell.api.Expectation;
-import net.thartm.cq.cqshell.api.Parameter;
-import net.thartm.cq.cqshell.api.Result;
+import net.thartm.cq.cqshell.action.ActionResponse;
+import net.thartm.cq.cqshell.method.Expectation;
+import net.thartm.cq.cqshell.method.Parameter;
+import net.thartm.cq.cqshell.impl.action.AbstractShellAction;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
@@ -38,7 +39,7 @@ public class PwdAction extends AbstractShellAction {
     }
 
     @Override
-    protected Result invokeMethod(final Map<String, Parameter> arguments) {
+    protected ActionResponse invokeMethod(final Map<String, Parameter> arguments) {
         final Parameter pathParam = arguments.get("path");
         final String path = (String) pathParam.getValue();
         if(StringUtils.isNotBlank(path)){

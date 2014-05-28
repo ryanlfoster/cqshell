@@ -1,4 +1,4 @@
-package net.thartm.cq.cqshell.api;
+package net.thartm.cq.cqshell.method;
 
 /** Protocol definition according to http://www.jsonrpc.org/specification
  * 

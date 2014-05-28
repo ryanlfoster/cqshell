@@ -2,7 +2,7 @@ package net.thartm.cq.cqshell.impl.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Optional;
-import net.thartm.cq.cqshell.api.ActionCall;
+import net.thartm.cq.cqshell.action.ActionCall;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;

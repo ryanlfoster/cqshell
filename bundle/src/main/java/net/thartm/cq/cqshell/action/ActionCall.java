@@ -1,4 +1,4 @@
-package net.thartm.cq.cqshell.api;
+package net.thartm.cq.cqshell.action;
 
 import java.util.Arrays;
 import java.util.List;

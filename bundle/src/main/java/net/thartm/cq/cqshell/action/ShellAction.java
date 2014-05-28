@@ -1,7 +1,6 @@
-package net.thartm.cq.cqshell.action.invoker;
+package net.thartm.cq.cqshell.action;
 
-import net.thartm.cq.cqshell.api.Parameter;
-import net.thartm.cq.cqshell.api.Result;
+import net.thartm.cq.cqshell.method.Parameter;
 
 import javax.jcr.Session;
 import java.util.List;
@@ -20,14 +19,19 @@ public interface ShellAction {
      * @return String representation of the name. */
     String getName();
 
+    /** Can be invoked.
+     * 
+     * @return True if it can be invoked. */
+    boolean isInvokable();
+
     /** Executes the ShellAction using the given session object and parameters.
      * 
      * @param session
      * @param parameters
      * @return Result of execution. */
-    Result execute(final Session session, final Parameter... parameters);
+    ActionResponse execute(final Session session, final Parameter... parameters);
 
-    /** Verifies it fit is possible to run the action with the given set of parameters.
+    /** Verifies if it is possible to run the action with the given set of parameters.
      * 
      * @param parameters
      * @return */

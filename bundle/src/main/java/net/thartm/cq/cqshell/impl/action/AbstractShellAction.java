@@ -1,12 +1,12 @@
-package net.thartm.cq.cqshell.impl.action.invoker;
+package net.thartm.cq.cqshell.impl.action;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import net.thartm.cq.cqshell.action.invoker.ShellAction;
-import net.thartm.cq.cqshell.api.Expectation;
-import net.thartm.cq.cqshell.api.Parameter;
-import net.thartm.cq.cqshell.api.Result;
+import net.thartm.cq.cqshell.action.ShellAction;
+import net.thartm.cq.cqshell.action.ActionResponse;
+import net.thartm.cq.cqshell.method.Expectation;
+import net.thartm.cq.cqshell.method.Parameter;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.jcr.Session;
@@ -18,7 +18,7 @@ import java.util.Map;
 public abstract class AbstractShellAction implements ShellAction {
 
     @Override
-    public Result execute(Session session, Parameter... parameters) {
+    public ActionResponse execute(final Session session, final Parameter... parameters) {
         final Map<String, Parameter> paramMap = createParameterMap(parameters);
 
         final Map<String, Parameter> invocationArguments = Maps.newHashMap();
@@ -41,7 +41,7 @@ public abstract class AbstractShellAction implements ShellAction {
 
     protected abstract Map<String, Expectation> getExpectations();
 
-    protected abstract Result invokeMethod(Map<String, Parameter> arguments);
+    protected abstract ActionResponse invokeMethod(Map<String, Parameter> arguments);
 
     private ImmutableMap<String, Parameter> createParameterMap(Parameter[] parameters) {
         return Maps.uniqueIndex(Arrays.asList(parameters), new Function<Parameter, String>() {
@@ -56,10 +56,10 @@ public abstract class AbstractShellAction implements ShellAction {
     }
 
     private boolean isInvalid(final Expectation expectation, final Map<String, Parameter> paramMap) {
-        final Parameter param = paramMap.get(expectation.getName());
+        final Parameter parameter = paramMap.get(expectation.getName());
 
-        if (expectation.verifiesOptions()) {
-            return !optionsValid(expectation, param);
+        if (expectation.requiresOptionVerification()) {
+            return !expectation.optionsMatch(parameter);
         }
 
         // TODO apply the evaluation patterns

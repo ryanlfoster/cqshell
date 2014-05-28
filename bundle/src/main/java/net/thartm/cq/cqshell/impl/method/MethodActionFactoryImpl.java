@@ -1,5 +1,6 @@
 package net.thartm.cq.cqshell.impl.method;
 
+import net.thartm.cq.cqshell.action.ShellAction;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.ReferenceCardinality;
 import org.apache.felix.scr.annotations.ReferencePolicy;
@@ -15,25 +16,27 @@ public class MethodActionFactoryImpl implements MethodActionFactory {
 
     private static final Logger LOG = LoggerFactory.getLogger(MethodActionFactoryImpl.class);
 
-    @Reference(referenceInterface = MethodAction.class,
+    @Reference(referenceInterface = ShellAction.class,
             policy = ReferencePolicy.DYNAMIC,
             bind = "bindService",
             unbind = "unbindService",
             cardinality = ReferenceCardinality.OPTIONAL_MULTIPLE)
-    private ConcurrentMap<String, MethodAction> processorServices = new ConcurrentSkipListMap<String, MethodAction>();
+    private ConcurrentMap<String, ShellAction> actions = new ConcurrentSkipListMap<String, ShellAction>();
 
-    protected void bindService(final MethodAction service) {
-        processorServices.put(service.getKey(), service);
-        LOG.debug("Registered MethodProcessor for container ID [{}]", service.getKey());
+    protected void bindService(final ShellAction service) {
+        actions.put(service.getName(), service);
+        LOG.debug("Registered MethodProcessor for container ID [{}]", service.getName());
     }
 
-    protected void unbindService(final MethodAction service) {
-        processorServices.remove(service.getKey());
-        LOG.debug("Removed MethodProcessor for container ID [{}]", service.getKey());
+    protected void unbindService(final ShellAction service) {
+        actions.remove(service.getName());
+        LOG.debug("Removed MethodProcessor for container ID [{}]", service.getName());
     }
 
-    public MethodAction findProcessor(final String methodName){
-
+    public ShellAction findAction(final String methodName){
+        if(actions.containsKey(methodName)){
+            return actions.get(methodName);
+        }
         return null;
     }
 }

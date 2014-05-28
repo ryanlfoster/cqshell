@@ -1,6 +1,8 @@
-package net.thartm.cq.cqshell.api;
+package net.thartm.cq.cqshell.method;
 
-/** @author thomas.hartmann@netcentric.biz
+/** Parameter object for an ActionCall.
+ * 
+ * @author thomas.hartmann@netcentric.biz
  * @since 05/2014 */
 public class Parameter<T> {
 
@@ -13,6 +15,10 @@ public class Parameter<T> {
     public Parameter(String name, T value) {
         this.name = name;
         this.value = value;
+    }
+
+    public Class type() {
+        return value.getClass();
     }
 
     public String getName() {
