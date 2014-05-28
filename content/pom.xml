@@ -16,7 +16,7 @@
     <!-- ====================================================================== -->
 
     <artifactId>cqshell-content</artifactId>
-    <name>cqshell-package Package</name>
+    <name>cqshell-package</name>
     <packaging>content-package</packaging>
 
     <build>

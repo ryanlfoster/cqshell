@@ -1,7 +1,7 @@
 package net.thartm.cq.cqshell.impl.servlet;
 
 import com.google.gson.Gson;
-import net.thartm.cq.cqshell.api.MethodCall;
+import net.thartm.cq.cqshell.api.ActionCall;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
@@ -25,7 +25,7 @@ public class RpcCommandServlet extends SlingSafeMethodsServlet {
             throws IOException, ServletException {
 
         final Gson gson = new Gson();
-        final MethodCall call = new MethodCall("1", "ls", "-l", "-a");
+        final ActionCall call = new ActionCall("1", "ls", "-l", "-a");
         final PrintWriter writer = response.getWriter();
 
         writer.write(gson.toJson(call));

@@ -11,28 +11,28 @@ import java.util.concurrent.ConcurrentSkipListMap;
 
 /** @author thomas.hartmann@netcentric.biz
  * @since 05/2014 */
-public class MethodFactoryImpl implements MethodFactory{
+public class MethodActionFactoryImpl implements MethodActionFactory {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MethodFactoryImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MethodActionFactoryImpl.class);
 
-    @Reference(referenceInterface = MethodProcessor.class,
+    @Reference(referenceInterface = MethodAction.class,
             policy = ReferencePolicy.DYNAMIC,
             bind = "bindService",
             unbind = "unbindService",
             cardinality = ReferenceCardinality.OPTIONAL_MULTIPLE)
-    private ConcurrentMap<String, MethodProcessor> processorServices = new ConcurrentSkipListMap<String, MethodProcessor>();
+    private ConcurrentMap<String, MethodAction> processorServices = new ConcurrentSkipListMap<String, MethodAction>();
 
-    protected void bindService(final MethodProcessor service) {
+    protected void bindService(final MethodAction service) {
         processorServices.put(service.getKey(), service);
         LOG.debug("Registered MethodProcessor for container ID [{}]", service.getKey());
     }
 
-    protected void unbindService(final MethodProcessor service) {
+    protected void unbindService(final MethodAction service) {
         processorServices.remove(service.getKey());
         LOG.debug("Removed MethodProcessor for container ID [{}]", service.getKey());
     }
 
-    public MethodProcessor findProcessor(final String methodName){
+    public MethodAction findProcessor(final String methodName){
 
         return null;
     }

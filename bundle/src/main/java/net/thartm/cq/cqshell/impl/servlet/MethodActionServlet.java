@@ -2,7 +2,7 @@ package net.thartm.cq.cqshell.impl.servlet;
 
 import com.google.common.base.Optional;
 import com.google.gson.Gson;
-import net.thartm.cq.cqshell.api.MethodCall;
+import net.thartm.cq.cqshell.api.ActionCall;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
@@ -16,11 +16,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-/** @author thomas.hartmann@netcentric.biz
+/** JSON RPC endpoint for method action invocations. Expects the action to be send as a JSON payload. Deserializes the payload and delegates the call to an
+ * invoker.
+ * 
+ * @author thomas.hartmann@netcentric.biz
  * @since 05/2014 */
-public class JsonRpcCommandReceiver extends SlingAllMethodsServlet {
+public class MethodActionServlet extends SlingAllMethodsServlet {
 
-    private static final Logger LOG = LoggerFactory.getLogger(JsonRpcCommandReceiver.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MethodActionServlet.class);
 
     @Override
     protected final void doPost(final SlingHttpServletRequest request, final SlingHttpServletResponse response)
@@ -28,9 +31,9 @@ public class JsonRpcCommandReceiver extends SlingAllMethodsServlet {
         response.setContentType("application/json; encoding=UTF-8");
 
         final String messageBody = getRequestBody(request);
-        final Optional<MethodCall> call = getMethodCall(messageBody);
+        final Optional<ActionCall> call = getMethodCall(messageBody);
 
-        if(call.isPresent()){
+        if (call.isPresent()) {
             // evaluate method call:
             // - check if method exist
             // - validate parameters
@@ -39,8 +42,8 @@ public class JsonRpcCommandReceiver extends SlingAllMethodsServlet {
             // create response
             // return response
 
-        }else{
-            //TODO send error ... method does not exist
+        } else {
+            // TODO send error ... method does not exist
         }
     }
 
@@ -70,10 +73,10 @@ public class JsonRpcCommandReceiver extends SlingAllMethodsServlet {
         return stringBuilder.toString();
     }
 
-    private Optional<MethodCall> getMethodCall(final String messageBody) {
+    private Optional<ActionCall> getMethodCall(final String messageBody) {
         if (StringUtils.isNotBlank(messageBody)) {
             final Gson gson = new Gson();
-            final MethodCall call = gson.fromJson(messageBody, MethodCall.class);
+            final ActionCall call = gson.fromJson(messageBody, ActionCall.class);
             return Optional.fromNullable(call);
         }
         return Optional.absent();
