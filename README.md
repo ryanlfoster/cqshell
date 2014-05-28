@@ -1,12 +1,12 @@
-= CQShell ... a web based CQ commandline interpreter
+# CQShell ... a web based CQ commandline interpreter
 Every decent piece of software needs a shell!
 
-== Supported shell commands
+## Supported shell commands
 
 The following commands are currently available. 
 All commands are organized in groups to make the delivery of man page information a bit more efficient.
 
-=== Group: Basic file operations
+### Group: Basic file operations
 pwd
 cd
 ls
@@ -22,29 +22,29 @@ Example:
 touch <name> [-t <type> -p {property:value}]
 
 
-=== Group: Basic system operations:
+### Group: Basic system operations:
 uname -a (number of available threads)
 whoami
 ping .... http ping another cq instance to check if it is available and reachable from this instance
 
 
-Basic operators:
+### Basic operators:
 
 && 
 |
 ><
 
-=== Group: Script Execution
+### Group: Script Execution
 
-=== Group: OSGI
+### Group: OSGI
 bundle status // all bundles shows installed, resolved, active
 bundle status <name>|<id>
 bundle status <name>|<id>
 
 servlet list
 
-=== Group: Replication
+### Group: Replication
 
-=== Group: Logging
+### Group: Logging
 
-=== Group: Healthcheck
+### Group: Healthcheck
