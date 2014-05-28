@@ -34,6 +34,11 @@ public class PwdAction extends AbstractShellAction {
     }
 
     @Override
+    public boolean isInvokable() {
+        return true;
+    }
+
+    @Override
     protected Map<String, Expectation> getExpectations() {
         return expectations;
     }
@@ -42,7 +47,7 @@ public class PwdAction extends AbstractShellAction {
     protected ActionResponse invokeMethod(final Map<String, Parameter> arguments) {
         final Parameter pathParam = arguments.get("path");
         final String path = (String) pathParam.getValue();
-        if(StringUtils.isNotBlank(path)){
+        if (StringUtils.isNotBlank(path)) {
 
         }
 

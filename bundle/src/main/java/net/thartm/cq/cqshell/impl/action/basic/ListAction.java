@@ -12,7 +12,6 @@ import java.util.Map;
  * @since 05/2014 */
 public class ListAction extends AbstractShellAction {
 
-
     @Override
     protected Map<String, Expectation> getExpectations() {
         return null;
@@ -26,6 +25,11 @@ public class ListAction extends AbstractShellAction {
     @Override
     public String getName() {
         return null;
+    }
+
+    @Override
+    public boolean isInvokable() {
+        return true;
     }
 
     @Override
