@@ -1,5 +1,6 @@
-package net.thartm.cq.cqshell.impl.method;
+package net.thartm.cq.cqshell.impl.factory;
 
+import com.google.common.base.Optional;
 import net.thartm.cq.cqshell.action.ShellAction;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.ReferenceCardinality;
@@ -33,10 +34,10 @@ public class MethodActionFactoryImpl implements MethodActionFactory {
         LOG.debug("Removed MethodProcessor for container ID [{}]", service.getName());
     }
 
-    public ShellAction findAction(final String methodName){
-        if(actions.containsKey(methodName)){
-            return actions.get(methodName);
+    public Optional<ShellAction> findAction(final String methodName) {
+        if (actions.containsKey(methodName)) {
+            return Optional.of(actions.get(methodName));
         }
-        return null;
+        return Optional.absent();
     }
 }

@@ -2,7 +2,7 @@ package net.thartm.cq.cqshell.impl.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Optional;
-import net.thartm.cq.cqshell.action.ActionCall;
+import net.thartm.cq.cqshell.action.RpcCall;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -32,7 +32,7 @@ public class MethodActionServlet extends SlingAllMethodsServlet {
         final Optional argOptional = getParamOptional(request, JsonRpcParameter.ARGUMENTS);
 
         final ObjectMapper mapper = new ObjectMapper();
-        final ActionCall call = new ActionCall("1", "ls", "-l", "-a");
+        final RpcCall call = new RpcCall("1", "ls", "-l", "-a");
         final PrintWriter writer = response.getWriter();
 
         writer.write(mapper.writeValueAsString(call));
@@ -51,7 +51,7 @@ public class MethodActionServlet extends SlingAllMethodsServlet {
         response.setContentType("application/json; encoding=UTF-8");
 
         final String messageBody = getRequestBody(request);
-        final Optional<ActionCall> call = getMethodCall(messageBody);
+        final Optional<RpcCall> call = getMethodCall(messageBody);
 
         if (call.isPresent()) {
             // evaluate method call:
@@ -93,10 +93,10 @@ public class MethodActionServlet extends SlingAllMethodsServlet {
         return stringBuilder.toString();
     }
 
-    private Optional<ActionCall> getMethodCall(final String messageBody) throws IOException {
+    private Optional<RpcCall> getMethodCall(final String messageBody) throws IOException {
         if (StringUtils.isNotBlank(messageBody)) {
             final ObjectMapper mapper = new ObjectMapper();
-            final ActionCall call = mapper.readValue(messageBody, ActionCall.class);
+            final RpcCall call = mapper.readValue(messageBody, RpcCall.class);
             return Optional.fromNullable(call);
         }
         return Optional.absent();

@@ -7,21 +7,21 @@ import java.util.List;
  * 
  * @author thomas.hartmann@netcentric.biz
  * @since 05/2014 */
-public class ActionCall {
+public class RpcCall {
 
     private String id;
     private String method;
     private List<Object> params;
 
-    public ActionCall(){}
+    public RpcCall(){}
 
-    public ActionCall(final String id, final String method, final List<Object> params) {
+    public RpcCall(final String id, final String method, final List<Object> params) {
         this.id = id;
         this.method = method;
         this.params = params;
     }
 
-    public ActionCall(final String id, final String method, final Object... params) {
+    public RpcCall(final String id, final String method, final Object... params) {
         this.id = id;
         this.method = method;
         this.params = Arrays.asList(params);
