@@ -1,10 +1,8 @@
-package net.thartm.cq.cqshell.impl.factory;
+package net.thartm.cq.cqshell.impl.evaluation;
 
 import com.google.common.base.Optional;
 import net.thartm.cq.cqshell.action.ShellAction;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.ReferenceCardinality;
-import org.apache.felix.scr.annotations.ReferencePolicy;
+import org.apache.felix.scr.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +11,9 @@ import java.util.concurrent.ConcurrentSkipListMap;
 
 /** @author thomas.hartmann@netcentric.biz
  * @since 05/2014 */
+
+@Service
+@Component
 public class MethodActionFactoryImpl implements MethodActionFactory {
 
     private static final Logger LOG = LoggerFactory.getLogger(MethodActionFactoryImpl.class);

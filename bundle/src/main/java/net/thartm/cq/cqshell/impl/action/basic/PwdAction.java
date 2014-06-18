@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
 
+import javax.jcr.Session;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +37,10 @@ public class PwdAction extends AbstractShellAction {
     @Override
     public boolean isInvokable() {
         return true;
+    }
+
+    @Override public ActionResponse execute(Session session, List<Parameter> parameters) {
+        return null;
     }
 
     @Override

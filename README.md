@@ -12,9 +12,9 @@ cd
 ls
 
 
-rm
-rm name // files only
-rm -R directory // files or directories
+* rm
+* rm name // files only
+* rm -R directory // files or directories
 
 
 touch - creates a node at the given position using the following arguments

@@ -28,6 +28,10 @@ public class NonExistingMethodAction implements ShellAction {
         throw new NoSuchMethodError("Not implemented");
     }
 
+    @Override public ActionResponse execute(Session session, List<Parameter> parameters) {
+        throw new NoSuchMethodError("Not implemented");
+    }
+
     @Override
     public boolean isValid(Parameter... parameters) {
         throw new NoSuchMethodError("Not implemented");

@@ -5,6 +5,7 @@ import net.thartm.cq.cqshell.method.Expectation;
 import net.thartm.cq.cqshell.method.Parameter;
 import net.thartm.cq.cqshell.impl.action.AbstractShellAction;
 
+import javax.jcr.Session;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,10 @@ public class ListAction extends AbstractShellAction {
     @Override
     public boolean isInvokable() {
         return true;
+    }
+
+    @Override public ActionResponse execute(Session session, List<Parameter> parameters) {
+        return null;
     }
 
     @Override

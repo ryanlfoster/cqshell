@@ -1,4 +1,4 @@
-package net.thartm.cq.cqshell.impl.factory;
+package net.thartm.cq.cqshell.impl.evaluation;
 
 import com.google.common.base.Optional;
 import net.thartm.cq.cqshell.action.ShellAction;

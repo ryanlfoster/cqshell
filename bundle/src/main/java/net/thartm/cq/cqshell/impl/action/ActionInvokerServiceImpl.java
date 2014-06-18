@@ -1,11 +1,10 @@
 package net.thartm.cq.cqshell.impl.action;
 
 import com.google.common.base.Optional;
-import com.google.common.collect.Lists;
 import net.thartm.cq.cqshell.action.ActionResponse;
-import net.thartm.cq.cqshell.action.RpcCall;
+import net.thartm.cq.cqshell.action.JsonRpcCall;
 import net.thartm.cq.cqshell.action.ShellAction;
-import net.thartm.cq.cqshell.impl.factory.MethodActionFactory;
+import net.thartm.cq.cqshell.impl.evaluation.MethodActionFactory;
 import net.thartm.cq.cqshell.method.Parameter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.felix.scr.annotations.Component;
@@ -24,14 +23,14 @@ public class ActionInvokerServiceImpl {
     @Reference
     private MethodActionFactory actionFactory;
 
-    public Optional<ActionResponse> invoke(final Session session, final RpcCall rpcCall) {
+    public Optional<ActionResponse> invoke(final Session session, final JsonRpcCall jsonRpcCall) {
 
-        final String method = rpcCall.getMethod();
+        final String method = jsonRpcCall.getMethod();
         if (StringUtils.isNotBlank(method)) {
             final Optional<ShellAction> actionOptional = actionFactory.findAction(method);
             if (actionOptional.isPresent()) {
                 final ShellAction action = actionOptional.get();
-                return invokeAction(session, rpcCall, action);
+                return invokeAction(session, jsonRpcCall, action);
             } else {
                 // TODO called a non existing method
             }
@@ -40,19 +39,15 @@ public class ActionInvokerServiceImpl {
         return Optional.absent();
     }
 
-    private Optional<ActionResponse> invokeAction(final Session session, final RpcCall rpcCall, final ShellAction action) {
+    private Optional<ActionResponse> invokeAction(final Session session, final JsonRpcCall jsonRpcCall, final ShellAction action) {
 
-        final List<Parameter> params = createParameters(rpcCall);
+        final List<Parameter> params = createParameters(jsonRpcCall);
         final ActionResponse response = action.execute(session, params);
         return Optional.fromNullable(response);
     }
 
-    private List<Parameter> createParameters(final RpcCall call) {
-        final List<Parameter> parameters = Lists.newArrayList();
-        for (Object p : call.getParams()) {
-            Parameter.
-        }
-        return parameters;
+    private List<Parameter> createParameters(final JsonRpcCall call) {
+        return null;
     }
 
 }
