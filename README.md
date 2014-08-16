@@ -7,14 +7,17 @@ The following commands are currently available.
 All commands are organized in groups to make the delivery of man page information a bit more efficient.
 
 ### Group: Basic file operations
-pwd
-cd
-ls
+pwd - shows the current location
+
+cd - changes directory
+
+ls - lists the contents of the current location
 
 
-* rm
-* rm name // files only
-* rm -R directory // files or directories
+rm - deletes a node
+Example:
+rm name // files only
+rm -R directory // files or directories
 
 
 touch - creates a node at the given position using the following arguments

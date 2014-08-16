@@ -31,10 +31,21 @@
                 <!-- compiler plugin -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.12</version>
+                    <configuration>
+                        <argLine>-XX:-UseSplitVerifier</argLine>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
+                    <version>2.4</version>
                     <configuration>
                         <source>${jdk.version}</source>
                         <target>${jdk.version}</target>
+                        <testSource>${jdk.version}</testSource>
+                        <testTarget>${jdk.version}</testTarget>
                     </configuration>
                 </plugin>
 
@@ -53,11 +64,10 @@
                     </executions>
                 </plugin>
 
-
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-scr-plugin</artifactId>
-                    <version>1.7.4</version>
+                    <version>1.16.0</version>
                 </plugin>
 
                 <plugin>
@@ -138,18 +148,21 @@
                 <version>4.2.0</version>
                 <scope>provided</scope>
             </dependency>
+
             <dependency>
                 <groupId>org.osgi</groupId>
                 <artifactId>org.osgi.compendium</artifactId>
                 <version>4.2.0</version>
                 <scope>provided</scope>
             </dependency>
+
             <dependency>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>org.apache.felix.scr.annotations</artifactId>
-                <version>1.6.0</version>
+                <version>1.9.8</version>
                 <scope>provided</scope>
             </dependency>
+
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
@@ -171,8 +184,8 @@
                 <scope>test</scope>
             </dependency>
             <!--
-    | json dependencies
-    +-->
+            | json dependencies
+            +-->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
@@ -189,6 +202,20 @@
                 <version>${jackson.version}</version>
                 <optional>true</optional>
             </dependency>
+
+            <!-- Websocket dependencies-->
+            <dependency>
+                <groupId>org.webbitserver</groupId>
+                <artifactId>webbit</artifactId>
+                <version>0.4.15</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty</artifactId>
+                <version>3.5.5.Final</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -213,8 +240,10 @@
             </build>
         </profile>
     </profiles>
+
     <modules>
         <module>bundle</module>
         <module>content</module>
     </modules>
+
 </project>

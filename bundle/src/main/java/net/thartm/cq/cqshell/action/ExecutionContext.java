@@ -7,6 +7,13 @@ public class ExecutionContext {
     private String path;
     private String userId;
 
+    public ExecutionContext(){}
+
+    public ExecutionContext(String path, String userId) {
+        this.path = path;
+        this.userId = userId;
+    }
+
     public String getPath() {
         return path;
     }

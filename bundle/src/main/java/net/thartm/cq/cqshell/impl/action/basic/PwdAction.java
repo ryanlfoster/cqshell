@@ -1,6 +1,7 @@
 package net.thartm.cq.cqshell.impl.action.basic;
 
 import net.thartm.cq.cqshell.action.ActionResponse;
+import net.thartm.cq.cqshell.action.ExecutionContext;
 import net.thartm.cq.cqshell.method.Expectation;
 import net.thartm.cq.cqshell.method.Parameter;
 import net.thartm.cq.cqshell.impl.action.AbstractShellAction;
@@ -8,11 +9,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
 
+import javax.jcr.Node;
+import javax.jcr.PathNotFoundException;
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /** @author thomas.hartmann@netcentric.biz
  * @since 05/2014 */
@@ -21,13 +22,6 @@ import java.util.Map;
 public class PwdAction extends AbstractShellAction {
 
     private static final String NAME = "pwd";
-
-    private static final String PATH_ARG = "path";
-
-    private static final Map<String, Expectation> expectations = new HashMap<String, Expectation>();
-    static {
-        expectations.put(PATH_ARG, Expectation.create(PATH_ARG, true));
-    }
 
     @Override
     public String getName() {
@@ -39,24 +33,26 @@ public class PwdAction extends AbstractShellAction {
         return true;
     }
 
-    @Override public ActionResponse execute(Session session, List<Parameter> parameters) {
-        return null;
+    @Override
+    public ActionResponse execute(Session session, ExecutionContext context, List<Parameter> parameters) throws RepositoryException {
+        return super.execute(session, context, parameters.toArray(new Parameter[parameters.size()]));
     }
 
     @Override
     protected Map<String, Expectation> getExpectations() {
-        return expectations;
+        return DEFAULT_EXPECTATIONS;
     }
 
     @Override
-    protected ActionResponse invokeMethod(final Map<String, Parameter> arguments) {
-        final Parameter pathParam = arguments.get("path");
-        final String path = (String) pathParam.getValue();
-        if (StringUtils.isNotBlank(path)) {
+    protected ActionResponse invokeMethod(final Session session, final ExecutionContext context, final Map<String, Parameter> parameters)
+            throws RepositoryException {
+        final String path = StringUtils.isNotBlank(context.getPath()) ? context.getPath() : "/";
+        final Node node = session.getNode(path);
 
+        if (node != null) {
+            return ActionResponse.success(node.getPath(), node.getPath());
         }
-
-        return null;
+        return ActionResponse.error("Unknown path", path);
     }
 
     @Override

@@ -45,10 +45,14 @@
                     <instructions>
                         <Bundle-SymbolicName>net.thartm.cq.cqshell-bundle</Bundle-SymbolicName>
                         <Import-Package>
+                            !com.google.protobuf,
+                            !org.jboss.logging,
+                            !org.jboss.marshalling,
+                            !sun.misc,
                             *
                         </Import-Package>
                         <Embed-Dependency>
-                            jackson-core,jackson-databind,jackson-annotations
+                            jackson-core,jackson-databind,jackson-annotations,webbit,netty,commons-lang3,guava
                         </Embed-Dependency>
                     </instructions>
                 </configuration>
@@ -120,6 +124,16 @@
         </dependency>
 
         <dependency>
+            <groupId>org.webbitserver</groupId>
+            <artifactId>webbit</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
@@ -139,6 +153,13 @@
             <groupId>org.apache.sling</groupId>
             <artifactId>org.apache.sling.api</artifactId>
             <version>2.7.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.sling</groupId>
+            <artifactId>org.apache.sling.jcr.api</artifactId>
+            <version>2.2.0</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

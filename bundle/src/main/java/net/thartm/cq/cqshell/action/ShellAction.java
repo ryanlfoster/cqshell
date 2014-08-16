@@ -2,6 +2,7 @@ package net.thartm.cq.cqshell.action;
 
 import net.thartm.cq.cqshell.method.Parameter;
 
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import java.util.List;
 
@@ -27,16 +28,18 @@ public interface ShellAction {
     /** Executes the ShellAction using the given session object and parameters.
      * 
      * @param session
+     * @param context
      * @param parameters
      * @return Result of execution. */
-    ActionResponse execute(final Session session, final Parameter... parameters);
+    ActionResponse execute(final Session session, final ExecutionContext context, final Parameter... parameters) throws RepositoryException;
 
     /** Executes the ShellAction using the given session object and parameters.
-     *
+     * 
      * @param session
+     * @param context
      * @param parameters
      * @return Result of execution. */
-    ActionResponse execute(final Session session, final List<Parameter> parameters);
+    ActionResponse execute(final Session session, final ExecutionContext context, final List<Parameter> parameters) throws RepositoryException;
 
     /** Verifies if it is possible to run the action with the given set of parameters.
      * 

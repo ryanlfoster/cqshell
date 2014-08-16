@@ -1,5 +1,8 @@
 package net.thartm.cq.cqshell.impl.model;
 
+import net.thartm.cq.cqshell.method.Parameter;
+import org.apache.commons.lang3.StringUtils;
+
 /** @author thomas.hartmann@netcentric.biz
  * @since 05/2014 */
 public class Argument<T> {
@@ -54,5 +57,10 @@ public class Argument<T> {
 
     public void setArgumentType(ArgumentType argumentType) {
         this.argumentType = argumentType;
+    }
+
+    public Parameter toParameter(){
+       final String key = StringUtils.isEmpty(this.key) ? "" : this.key;
+       return new Parameter(this.key , this.value);
     }
 }

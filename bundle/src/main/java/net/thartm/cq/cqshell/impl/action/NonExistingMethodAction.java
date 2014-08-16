@@ -1,6 +1,7 @@
 package net.thartm.cq.cqshell.impl.action;
 
 import net.thartm.cq.cqshell.action.ActionResponse;
+import net.thartm.cq.cqshell.action.ExecutionContext;
 import net.thartm.cq.cqshell.action.ShellAction;
 import net.thartm.cq.cqshell.method.Parameter;
 
@@ -24,11 +25,11 @@ public class NonExistingMethodAction implements ShellAction {
     }
 
     @Override
-    public ActionResponse execute(Session session, Parameter... parameters) {
+    public ActionResponse execute(final Session session, final ExecutionContext context, final Parameter... parameters) {
         throw new NoSuchMethodError("Not implemented");
     }
 
-    @Override public ActionResponse execute(Session session, List<Parameter> parameters) {
+    @Override public ActionResponse execute(final Session session, final ExecutionContext context, final List<Parameter> parameters) {
         throw new NoSuchMethodError("Not implemented");
     }
 

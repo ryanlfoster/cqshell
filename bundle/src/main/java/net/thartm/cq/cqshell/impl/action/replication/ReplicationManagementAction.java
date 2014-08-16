@@ -1,18 +1,23 @@
-package net.thartm.cq.cqshell.impl.action.basic;
+package net.thartm.cq.cqshell.impl.action.replication;
 
 import net.thartm.cq.cqshell.action.ActionResponse;
 import net.thartm.cq.cqshell.action.ExecutionContext;
+import net.thartm.cq.cqshell.impl.action.AbstractShellAction;
 import net.thartm.cq.cqshell.method.Expectation;
 import net.thartm.cq.cqshell.method.Parameter;
-import net.thartm.cq.cqshell.impl.action.AbstractShellAction;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Service;
 
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import java.util.List;
 import java.util.Map;
 
 /** @author thomas.hartmann@netcentric.biz
- * @since 05/2014 */
-public class ListAction extends AbstractShellAction {
+ * @since 07/2014 */
+@Service
+@Component
+public class ReplicationManagementAction extends AbstractShellAction {
 
     @Override
     protected Map<String, Expectation> getExpectations() {
@@ -20,7 +25,8 @@ public class ListAction extends AbstractShellAction {
     }
 
     @Override
-    protected ActionResponse invokeMethod(final Session session, final ExecutionContext context, final Map<String, Parameter> arguments) {
+    protected ActionResponse invokeMethod(Session session, ExecutionContext context, Map<String, Parameter> arguments)
+            throws RepositoryException {
         return null;
     }
 
@@ -31,10 +37,12 @@ public class ListAction extends AbstractShellAction {
 
     @Override
     public boolean isInvokable() {
-        return true;
+        return false;
     }
 
-    @Override public ActionResponse execute(final Session session, final ExecutionContext context, final List<Parameter> parameters) {
+    @Override
+    public ActionResponse execute(Session session, ExecutionContext context, List<Parameter> parameters)
+            throws RepositoryException {
         return null;
     }
 

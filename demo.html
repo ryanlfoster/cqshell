@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<meta charset="utf-8"/>
+<title>WebSocket Test</title>
+<script language="javascript" type="text/javascript">
+    //var wsUri = "ws://echo.websocket.org/";
+    var wsUri = "ws://localhost:9999/pwd";
+    var closeWait = 5;
+    var output;
+    function init() {
+        output = document.getElementById("output");
+        writeToScreen("Connecting to " + wsUri + ", will send quit message in " + closeWait + " seconds.");
+        testWebSocket();
+        setTimeout(function () {
+            doSend("And we will quit now, at " + new Date())
+        }, closeWait * 1000);
+    }
+    function testWebSocket() {
+        websocket = new WebSocket(wsUri);
+        websocket.onopen = function (evt) {
+            onOpen(evt)
+        };
+        websocket.onclose = function (evt) {
+            onClose(evt)
+        };
+        websocket.onmessage = function (evt) {
+            onMessage(evt)
+        };
+        websocket.onerror = function (evt) {
+            onError(evt)
+        };
+    }
+    function onOpen(evt) {
+        writeToScreen("CONNECTED to " + wsUri);
+        doSend("WebSocket rocks");
+        doSend("And it is now " + new Date());
+    }
+    function onClose(evt) {
+        writeToScreen("DISCONNECTED");
+    }
+    function onMessage(evt) {
+        writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data
+                + '</span>');
+        if (evt.data.indexOf("QUIT") >= 0) {
+            writeToScreen("Closing websocket");
+            websocket.close();
+        }
+    }
+    function onError(evt) {
+        writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+    }
+    function doSend(message) {
+        writeToScreen("SENT: " + message);
+        websocket.send(message);
+    }
+    function writeToScreen(message) {
+        var pre = document.createElement("p");
+        pre.style.wordWrap = "break-word";
+        pre.innerHTML = message;
+        output.appendChild(pre);
+    }
+    window.addEventListener("load", init, false);
+</script>
+<h2>WebSocket Test</h2>
+<div>Based on the http://www.websocket.org/echo.html example</div>
+<div id="output"></div>
+</html>
