@@ -9,12 +9,14 @@ import net.thartm.cq.cqshell.action.ActionResponse;
 import net.thartm.cq.cqshell.method.Expectation;
 import net.thartm.cq.cqshell.method.Parameter;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.sling.api.resource.ResourceResolver;
 
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /** @author thomas.hartmann@netcentric.biz
@@ -25,8 +27,13 @@ public abstract class AbstractShellAction implements ShellAction {
     static {
     }
 
+    public ActionResponse execute(final ResourceResolver resolver, final ExecutionContext context, final List<Parameter> parameters)
+            throws RepositoryException {
+        return execute(resolver, context, parameters.toArray(new Parameter[parameters.size()]));
+    }
+
     @Override
-    public ActionResponse execute(final Session session, final ExecutionContext context, final Parameter... parameters) throws RepositoryException {
+    public ActionResponse execute(final ResourceResolver resolver, final ExecutionContext context, final Parameter... parameters) throws RepositoryException {
         final Map<String, Parameter> paramMap = createParameterMap(parameters);
 
 /*        final Map<String, Parameter> invocationArguments = Maps.newHashMap();
@@ -46,12 +53,12 @@ public abstract class AbstractShellAction implements ShellAction {
             }
         }*/
 
-        return invokeMethod(session, context, paramMap);
+        return invokeMethod(resolver, context, paramMap);
     }
 
     protected abstract Map<String, Expectation> getExpectations();
 
-    protected abstract ActionResponse invokeMethod(final Session session, final ExecutionContext context, final Map<String, Parameter> arguments)
+    protected abstract ActionResponse invokeMethod(final ResourceResolver resolver, final ExecutionContext context, final Map<String, Parameter> arguments)
             throws RepositoryException;
 
     private ImmutableMap<String, Parameter> createParameterMap(Parameter[] parameters) {

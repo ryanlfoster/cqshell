@@ -7,6 +7,7 @@ import net.thartm.cq.cqshell.method.Expectation;
 import net.thartm.cq.cqshell.method.Parameter;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.sling.api.resource.ResourceResolver;
 
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
@@ -28,7 +29,7 @@ public class ReplicationManagementAction extends AbstractShellAction {
     }
 
     @Override
-    protected ActionResponse invokeMethod(Session session, ExecutionContext context, Map<String, Parameter> arguments)
+    protected ActionResponse invokeMethod(ResourceResolver resourceResolver, ExecutionContext context, Map<String, Parameter> arguments)
             throws RepositoryException {
         return null;
     }
@@ -41,12 +42,6 @@ public class ReplicationManagementAction extends AbstractShellAction {
     @Override
     public boolean isInvokable() {
         return false;
-    }
-
-    @Override
-    public ActionResponse execute(Session session, ExecutionContext context, List<Parameter> parameters)
-            throws RepositoryException {
-        return ActionResponse.error("Not implemented yet.");
     }
 
     @Override

@@ -8,7 +8,8 @@ import net.thartm.cq.cqshell.impl.action.AbstractShellAction;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
-
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
 import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
@@ -34,23 +35,18 @@ public class PwdAction extends AbstractShellAction {
     }
 
     @Override
-    public ActionResponse execute(Session session, ExecutionContext context, List<Parameter> parameters) throws RepositoryException {
-        return super.execute(session, context, parameters.toArray(new Parameter[parameters.size()]));
-    }
-
-    @Override
     protected Map<String, Expectation> getExpectations() {
         return DEFAULT_EXPECTATIONS;
     }
 
     @Override
-    protected ActionResponse invokeMethod(final Session session, final ExecutionContext context, final Map<String, Parameter> parameters)
+    protected ActionResponse invokeMethod(final ResourceResolver resolver, final ExecutionContext context, final Map<String, Parameter> parameters)
             throws RepositoryException {
         final String path = StringUtils.isNotBlank(context.getPath()) ? context.getPath() : "/";
-        final Node node = session.getNode(path);
+        final Resource resource = resolver.getResource(path);
 
-        if (node != null) {
-            return ActionResponse.success(node.getPath(), node.getPath());
+        if (resource != null) {
+            return ActionResponse.success(resource.getPath(), resource.getPath());
         }
         return ActionResponse.error("Unknown path", path);
     }

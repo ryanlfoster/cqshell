@@ -125,11 +125,10 @@ public class CommandHandler implements WebSocketHandler, CommandExecutor {
 
     private ActionResponse invokeAction(final Sentence sentence, final ExecutionContext context, final ShellAction action, final ResourceResolver resolver)
             throws RepositoryException {
-
         final List<Argument> arguments = sentence.getArguments();
         final List<Parameter> params = createParameterList(arguments);
-        Session session = resolver.adaptTo(Session.class);
-        return action.execute(session, context, params);
+
+        return action.execute(resolver, context, params);
     }
 
     private List<Parameter> createParameterList(final List<Argument> arguments) {

@@ -4,6 +4,7 @@ import net.thartm.cq.cqshell.action.ActionResponse;
 import net.thartm.cq.cqshell.action.ExecutionContext;
 import net.thartm.cq.cqshell.action.ShellAction;
 import net.thartm.cq.cqshell.method.Parameter;
+import org.apache.sling.api.resource.ResourceResolver;
 
 import javax.jcr.Session;
 import java.util.List;
@@ -25,11 +26,11 @@ public class NonExistingMethodAction implements ShellAction {
     }
 
     @Override
-    public ActionResponse execute(final Session session, final ExecutionContext context, final Parameter... parameters) {
+    public ActionResponse execute(ResourceResolver resourceResolver, final ExecutionContext context, final Parameter... parameters) {
         throw new NoSuchMethodError("Not implemented");
     }
 
-    @Override public ActionResponse execute(final Session session, final ExecutionContext context, final List<Parameter> parameters) {
+    @Override public ActionResponse execute(ResourceResolver resourceResolver, final ExecutionContext context, final List<Parameter> parameters) {
         throw new NoSuchMethodError("Not implemented");
     }
 

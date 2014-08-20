@@ -1,6 +1,7 @@
 package net.thartm.cq.cqshell.action;
 
 import net.thartm.cq.cqshell.method.Parameter;
+import org.apache.sling.api.resource.ResourceResolver;
 
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
@@ -27,19 +28,19 @@ public interface ShellAction {
 
     /** Executes the ShellAction using the given session object and parameters.
      * 
-     * @param session
+     * @param resolver
      * @param context
      * @param parameters
      * @return Result of execution. */
-    ActionResponse execute(final Session session, final ExecutionContext context, final Parameter... parameters) throws RepositoryException;
+    ActionResponse execute(final ResourceResolver resolver, final ExecutionContext context, final Parameter... parameters) throws RepositoryException;
 
     /** Executes the ShellAction using the given session object and parameters.
      * 
-     * @param session
+     * @param resolver
      * @param context
      * @param parameters
      * @return Result of execution. */
-    ActionResponse execute(final Session session, final ExecutionContext context, final List<Parameter> parameters) throws RepositoryException;
+    ActionResponse execute(final ResourceResolver resolver, final ExecutionContext context, final List<Parameter> parameters) throws RepositoryException;
 
     /** Verifies if it is possible to run the action with the given set of parameters.
      * 

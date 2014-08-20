@@ -8,12 +8,11 @@ import net.thartm.cq.cqshell.impl.action.AbstractShellAction;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
 
 import javax.jcr.*;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /** @author thomas.hartmann@netcentric.biz
  * @since 05/2014 */
@@ -48,28 +47,25 @@ public class ListAction extends AbstractShellAction {
     }
 
     @Override
-    public ActionResponse execute(final Session session, final ExecutionContext context, final List<Parameter> parameters)
-            throws RepositoryException {
-        return super.execute(session, context, parameters.toArray(new Parameter[parameters.size()]));
-    }
-
-    @Override
-    protected ActionResponse invokeMethod(final Session session, final ExecutionContext context, final Map<String, Parameter> arguments)
+    protected ActionResponse invokeMethod(final ResourceResolver resourceResolver, final ExecutionContext context, final Map<String, Parameter> arguments)
             throws RepositoryException {
         final String path = StringUtils.isNotBlank(context.getPath()) ? context.getPath() : "/";
 
-        final Node node = session.getNode(path);
+        final Resource resource = resourceResolver.getResource(path);
 
-        if (node != null) {
+        if (resource != null) {
             final StringBuilder resultBuilder = new StringBuilder();
-            NodeIterator it = node.getNodes();
+            final Iterator<Resource> it = resource.listChildren();
 
             while (it.hasNext()) {
-                final Node child = it.nextNode();
-                final String entry = String.format(TEMPLATE, child.getPrimaryNodeType(), child.getName());
+                final Resource child = it.next();
+
+                final Node node = child.adaptTo(Node.class);
+                final String primaryType = node != null ? node.getPrimaryNodeType().toString() : "";
+                final String entry = String.format(TEMPLATE, primaryType, child.getName());
                 resultBuilder.append(entry);
             }
-            return ActionResponse.success(resultBuilder.toString(), node.getPath());
+            return ActionResponse.success(resultBuilder.toString(), resource.getPath());
         }
         return ActionResponse.error("Unable to list contents for ", path);
     }

@@ -8,6 +8,7 @@ import net.thartm.cq.cqshell.method.Parameter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.sling.api.resource.ResourceResolver;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
@@ -52,16 +53,12 @@ public class CDAction extends AbstractShellAction {
     }
 
     @Override
-    public ActionResponse execute(final Session session, final ExecutionContext context, final List<Parameter> parameters)
-            throws RepositoryException {
-        return super.execute(session, context, parameters.toArray(new Parameter[parameters.size()]));
-    }
-
-    @Override
-    protected ActionResponse invokeMethod(final Session session, final ExecutionContext context, final Map<String, Parameter> arguments)
+    protected ActionResponse invokeMethod(final ResourceResolver resolver, final ExecutionContext context, final Map<String, Parameter> arguments)
             throws RepositoryException {
         final String path = StringUtils.isNotBlank(context.getPath()) ? context.getPath() : "/";
 
+        // directly using a session here
+        final Session session = resolver.adaptTo(Session.class);
         if (arguments.size() == 1) {
             final Node currentNode = session.getNode(path);
             if (currentNode != null) {
