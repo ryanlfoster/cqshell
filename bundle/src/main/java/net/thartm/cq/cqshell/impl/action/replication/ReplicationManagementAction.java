@@ -10,6 +10,7 @@ import org.apache.felix.scr.annotations.Service;
 
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,8 @@ import java.util.Map;
 @Service
 @Component
 public class ReplicationManagementAction extends AbstractShellAction {
+
+    private static final String NAME = "replication";
 
     @Override
     protected Map<String, Expectation> getExpectations() {
@@ -32,7 +35,7 @@ public class ReplicationManagementAction extends AbstractShellAction {
 
     @Override
     public String getName() {
-        return null;
+        return NAME;
     }
 
     @Override
@@ -43,7 +46,7 @@ public class ReplicationManagementAction extends AbstractShellAction {
     @Override
     public ActionResponse execute(Session session, ExecutionContext context, List<Parameter> parameters)
             throws RepositoryException {
-        return null;
+        return ActionResponse.error("Not implemented yet.");
     }
 
     @Override
@@ -53,6 +56,6 @@ public class ReplicationManagementAction extends AbstractShellAction {
 
     @Override
     public List<Parameter> getParameterInformation() {
-        return null;
+        return Collections.EMPTY_LIST;
     }
 }

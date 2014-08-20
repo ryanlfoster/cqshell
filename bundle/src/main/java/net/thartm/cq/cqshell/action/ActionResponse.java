@@ -6,7 +6,6 @@ public class ActionResponse {
 
     private String path;
     private Type type;
-
     private String message;
 
     public ActionResponse(final String message, final String path, final Type type) {
@@ -41,6 +40,10 @@ public class ActionResponse {
 
     public static ActionResponse error(final String message, final String path) {
         return new ActionResponse(message, path, Type.ERROR);
+    }
+
+    public static ActionResponse error(final String message) {
+        return new ActionResponse(message, "", Type.ERROR);
     }
 
     public static ActionResponse success(final String message, final String path) {

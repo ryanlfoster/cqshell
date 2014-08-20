@@ -6,13 +6,18 @@ import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Reference;
+import org.apache.sling.api.resource.LoginException;
+import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.apache.sling.auth.core.AuthenticationSupport;
+import org.apache.sling.auth.core.spi.AuthenticationInfo;
 import org.apache.sling.jcr.api.SlingRepository;
+import org.apache.sling.settings.SlingSettingsService;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.webbitserver.WebServer;
 import org.webbitserver.WebServers;
-
+import org.webbitserver.HttpRequest;
 import java.util.concurrent.Future;
 
 /**
@@ -29,7 +34,7 @@ public class WebsocketServer {
     private ExpressionParserService expressionParser;
 
     @Reference
-    private SlingRepository repository;
+    private SlingServiceProxy slingServiceProxy;
 
     private final Logger log = LoggerFactory.getLogger(getClass());
     private int port = 9999;
@@ -38,8 +43,9 @@ public class WebsocketServer {
     @Activate
     protected void activate(ComponentContext ctx) {
         serverFuture = WebServers.createWebServer(port)
-                .add("/console", new CommandHandler(repository, expressionParser, actionFactory))
+                .add("/console", new CommandHandler(slingServiceProxy, expressionParser, actionFactory))
                 .start();
+
         log.info("WebServer started on port {}", port);
     }
 

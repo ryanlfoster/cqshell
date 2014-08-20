@@ -1,9 +1,7 @@
-package net.thartm.cq.cqshell.impl.servlet;
+package net.thartm.cq.cqshell.impl.authentication;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Optional;
-import net.thartm.cq.cqshell.action.JsonRpcCall;
-import org.apache.commons.lang3.StringUtils;
+import net.thartm.cq.cqshell.impl.servlet.JsonRpcParameter;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
@@ -14,54 +12,35 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.ServletException;
 import java.io.*;
 
-/** JSON RPC endpoint for method action invocations. Expects the action to be send as a JSON payload. <br />
- * Unserializes the payload and delegates the call to an invoker. A typical JSON RPC method call looks as follows:
+/** JSON endpoint for the issuance of websocket authentication tokens. <br />
+ * Expects the action to be send as a JSON payload. <br />
+ * Unserializes the payload and delegates the call to an invoker. <br />
+ * A typical JSON RPC method call looks as follows:
  * 
- * { "id": 1,<br />
- * &nbsp;&nbsp;"method": shell, <br />
- * &nbsp;&nbsp;"params": <br />
- * &nbsp;&nbsp;&nbsp;&nbsp;"expression": "method [-argumentName] [argumentValue]",<br />
- * &nbsp;&nbsp;&nbsp;&nbsp;"executionContext": { <br />
- * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path: "",<br />
- * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user: "[currentUser]"<br />
- * &nbsp;&nbsp;&nbsp;&nbsp;}<br />
- * }
- * 
- * <h2>method</h2>
- * <p>
- * Can be [query, shell, script]. we use the method to select the appropriate expression parser.
- * </p>
- * <h2>params</h2> <br />
- * <h3>expression</h3>
- * <p>
- * The expression is always evaluated serverside and delegated to an evaluation engine that matches the method. Each expression may contain of multiple
- * sentences separated by operators like |. A sentence is an action statement with or without arguments.
- * </p>
- * 
- * <h3>executionContext</h3>
- * <p>
- * The executionContext contains additional supportive information, like for example our current path. Path default is / which can be unset to blank for
- * command's that do not depend of any path.<br />
- * Contains also the user that triggered the call ... not very important as we actually we depend on the session anyway
- * </p>
  * 
  * @author thomas.hartmann@netcentric.biz
  * @since 05/2014 */
-@SlingServlet(paths = { "/bin/cqshell/rpc/2/action" }, methods = { "GET", "POST" })
-public class MethodActionServlet extends SlingAllMethodsServlet {
+@SlingServlet(paths = { "/bin/cqshell/authentication/token" }, methods = { "GET"}, extensions = {"json"})
+public class WebsocketAuthenticationSupportServlet extends SlingAllMethodsServlet {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MethodActionServlet.class);
+    private static final Logger LOG = LoggerFactory.getLogger(WebsocketAuthenticationSupportServlet.class);
+    public static final String RESPONSE_TYPE = "application/json; encoding=UTF-8";
 
     @Override
     protected final void doGet(final SlingHttpServletRequest request, final SlingHttpServletResponse response)
             throws IOException, ServletException {
-        final Optional idOptional = getParamOptional(request, JsonRpcParameter.ID);
-        final Optional methodOptional = getParamOptional(request, JsonRpcParameter.METHOD);
-        final Optional argOptional = getParamOptional(request, JsonRpcParameter.ARGUMENTS);
 
-
+        response.setContentType(RESPONSE_TYPE);
+        //final Optional idOptional = getParamOptional(request, JsonRpcParameter.ID);
+        //final Optional methodOptional = getParamOptional(request, JsonRpcParameter.METHOD);
+        //final Optional argOptional = getParamOptional(request, JsonRpcParameter.ARGUMENTS);
+        handleRequest(request, response);
         response.flushBuffer();
         // TODO validate param optionals
+    }
+
+    private void handleRequest(final SlingHttpServletRequest request, final SlingHttpServletResponse response) {
+
     }
 
     private Optional getParamOptional(final SlingHttpServletRequest request, final JsonRpcParameter parameter) {
@@ -69,7 +48,7 @@ public class MethodActionServlet extends SlingAllMethodsServlet {
         return Optional.fromNullable(param);
     }
 
-    @Override
+   /* @Override
     protected final void doPost(final SlingHttpServletRequest request, final SlingHttpServletResponse response)
             throws IOException, ServletException {
         response.setContentType("application/json; encoding=UTF-8");
@@ -124,5 +103,5 @@ public class MethodActionServlet extends SlingAllMethodsServlet {
             return Optional.fromNullable(call);
         }
         return Optional.absent();
-    }
+    }*/
 }

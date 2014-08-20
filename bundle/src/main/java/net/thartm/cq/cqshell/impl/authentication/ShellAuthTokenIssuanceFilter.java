@@ -7,6 +7,7 @@ import org.apache.felix.scr.annotations.sling.SlingFilter;
 import org.apache.felix.scr.annotations.sling.SlingFilterScope;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +25,7 @@ public class ShellAuthTokenIssuanceFilter implements Filter {
 
     private static final Logger LOG = LoggerFactory.getLogger(ShellAuthTokenIssuanceFilter.class);
     private static final String SHELL_AUTH_COOKIE = "shell-token";
+
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -52,7 +54,8 @@ public class ShellAuthTokenIssuanceFilter implements Filter {
         final Principal principal = slingRequest.getUserPrincipal();
 
         if (!cookie.isPresent()) {
-        principal.
+            final ResourceResolver resolver = slingRequest.getResourceResolver();
+            //principal.getName()
         } else {
 
             // validate if cookie is still correct for the current user
