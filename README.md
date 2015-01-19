@@ -7,23 +7,22 @@ The following commands are currently available.
 All commands are organized in groups to make the delivery of man page information a bit more efficient.
 
 ### Group: Basic file operations
-pwd - shows the current location
 
-cd - changes directory
+| Action | Description | Status |
+|---|---|---|
+| pwd | shows the current location | available |
+| cd | changes directory | available |
+| ls | lists the contents of the current location  | available |
+| rm | deletes a node  | not yet implemented |
+| touch | creates a node at the given position  | not yet implemented |
 
-ls - lists the contents of the current location
-
-
-rm - deletes a node
-Example:
+#### Examples
+``` bash
 rm name // files only
 rm -R directory // files or directories
 
-
-touch - creates a node at the given position using the following arguments
-Example:
 touch <name> [-t <type> -p {property:value}]
-
+```
 
 ### Group: Basic system operations:
 uname -a (number of available threads)
@@ -51,3 +50,5 @@ servlet list
 ### Group: Logging
 
 ### Group: Healthcheck
+
+### Group: Query execution
