@@ -61,6 +61,6 @@ public class Argument<T> {
 
     public Parameter toParameter(){
        final String key = StringUtils.isEmpty(this.key) ? "" : this.key;
-       return new Parameter(this.key , this.value);
+       return new Parameter(key , this.value);
     }
 }
